@@ -1,5 +1,6 @@
 <script setup>
 import { Head, Link } from "@inertiajs/vue3";
+import { ref, computed } from "vue";
 
 const props = defineProps({
     canLogin: {
@@ -15,6 +16,36 @@ const props = defineProps({
 });
 
 const plainProducts = JSON.parse(JSON.stringify(props.products));
+
+const selectedCategory = ref(null);
+
+const filteredProducts = computed(() => {
+    if (!selectedCategory.value) return [];
+    return plainProducts.filter(
+        (product) => product.category_id === selectedCategory.value
+    );
+});
+
+const categories = computed(() => {
+    const uniqueCategories = [];
+    plainProducts.forEach((product) => {
+        if (
+            !uniqueCategories.some(
+                (category) => category.id === product.category_id
+            )
+        ) {
+            uniqueCategories.push({
+                id: product.category_id,
+                name: product.category_name,
+            });
+        }
+    });
+    return uniqueCategories;
+});
+
+const selectCategory = (categoryId) => {
+    selectedCategory.value = categoryId;
+};
 </script>
 
 <template>
@@ -74,7 +105,7 @@ const plainProducts = JSON.parse(JSON.stringify(props.products));
             </div>
         </header>
 
-        <!-- Hero Section -->
+        <!-- Hero -->
         <div class="relative py-16 bg-white overflow-hidden dark:bg-gray-800">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="relative">
@@ -119,7 +150,7 @@ const plainProducts = JSON.parse(JSON.stringify(props.products));
             </div>
         </div>
 
-        <!-- Featured Products Section -->
+        <!-- Seção de produtos destaque -->
         <div id="featured" class="bg-gray-50 py-16 dark:bg-gray-900">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center">
@@ -165,7 +196,7 @@ const plainProducts = JSON.parse(JSON.stringify(props.products));
             </div>
         </div>
 
-        <!-- Categories Section -->
+        <!-- Seção de Categorias -->
         <div id="categories" class="bg-white py-16 dark:bg-gray-800">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center">
@@ -179,60 +210,69 @@ const plainProducts = JSON.parse(JSON.stringify(props.products));
                     </p>
                 </div>
 
+                <!-- Botões de categorias -->
                 <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-                    <!-- Category 1 -->
-                    <a
-                        href="#"
-                        class="bg-gray-100 rounded-lg p-8 text-center dark:bg-gray-700 transition hover:shadow-lg hover:bg-gray-200 dark:hover:bg-gray-600 cursor-pointer"
+                    <button
+                        v-for="category in categories"
+                        :key="category.id"
+                        @click="selectCategory(category.id)"
+                        :class="{
+                            'bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-white':
+                                selectedCategory === category.id,
+                            'bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-white':
+                                selectedCategory !== category.id,
+                        }"
+                        class="rounded-lg p-8 text-center transition hover:shadow-lg hover:bg-gray-200 dark:hover:bg-gray-600 cursor-pointer"
                     >
-                        <h3
-                            class="text-xl font-medium text-gray-900 dark:text-white"
-                        >
-                            Eletrônicos
+                        <h3 class="text-xl font-medium">
+                            {{ category.name }}
                         </h3>
-                    </a>
+                    </button>
+                </div>
 
-                    <!-- Category 2 -->
-                    <a
-                        href="#"
-                        class="bg-gray-100 rounded-lg p-8 text-center dark:bg-gray-700 transition hover:shadow-lg hover:bg-gray-200 dark:hover:bg-gray-600 cursor-pointer"
+                <!-- Produtos da categoria selecionada -->
+                <div v-if="selectedCategory" class="mt-12">
+                    <div
+                        v-if="filteredProducts.length > 0"
+                        class="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3"
                     >
-                        <h3
-                            class="text-xl font-medium text-gray-900 dark:text-white"
+                        <div
+                            v-for="product in filteredProducts"
+                            :key="product.id"
+                            class="bg-white rounded-lg shadow-md p-6 dark:bg-gray-700 transition hover:shadow-lg"
                         >
-                            Vestuário
-                        </h3>
-                    </a>
-
-                    <!-- Category 3 -->
-                    <a
-                        href="#"
-                        class="bg-gray-100 rounded-lg p-8 text-center dark:bg-gray-700 transition hover:shadow-lg hover:bg-gray-200 dark:hover:bg-gray-600 cursor-pointer"
+                            <img
+                                :src="product.image_url"
+                                alt="Product Image"
+                                class="h-48 w-full object-cover rounded-md mb-4"
+                            />
+                            <h3
+                                class="text-xl font-semibold text-gray-900 dark:text-white"
+                            >
+                                {{ product.name }}
+                            </h3>
+                            <p class="mt-2 text-gray-500 dark:text-gray-300">
+                                {{ product.description }}
+                            </p>
+                            <p
+                                class="mt-4 text-lg font-bold text-gray-900 dark:text-white"
+                            >
+                                R$ {{ product.price.toFixed(2) }}
+                            </p>
+                        </div>
+                    </div>
+                    <p
+                        v-else
+                        class="mt-8 text-center text-gray-500 dark:text-gray-300"
                     >
-                        <h3
-                            class="text-xl font-medium text-gray-900 dark:text-white"
-                        >
-                            Casa & Cozinha
-                        </h3>
-                    </a>
-
-                    <!-- Category 4 -->
-                    <a
-                        href="#"
-                        class="bg-gray-100 rounded-lg p-8 text-center dark:bg-gray-700 transition hover:shadow-lg hover:bg-gray-200 dark:hover:bg-gray-600 cursor-pointer"
-                    >
-                        <h3
-                            class="text-xl font-medium text-gray-900 dark:text-white"
-                        >
-                            Livros
-                        </h3>
-                    </a>
+                        Nenhum produto encontrado nesta categoria.
+                    </p>
                 </div>
             </div>
         </div>
 
         <!-- Footer -->
-        <footer class="bg-gray-800 text-white py-12">
+        <footer class="bg-gray-800 text-white py-12 border-t border-gray-700">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div>
