@@ -1,29 +1,20 @@
 <script setup>
 import { Head, Link } from "@inertiajs/vue3";
 
-defineProps({
+const props = defineProps({
     canLogin: {
         type: Boolean,
     },
     canRegister: {
         type: Boolean,
     },
-    laravelVersion: {
-        type: String,
-        required: true,
-    },
-    phpVersion: {
-        type: String,
+    products: {
+        type: Array,
         required: true,
     },
 });
 
-function handleImageError() {
-    document.getElementById("screenshot-container")?.classList.add("!hidden");
-    document.getElementById("docs-card")?.classList.add("!row-span-1");
-    document.getElementById("docs-card-content")?.classList.add("!flex-row");
-    document.getElementById("background")?.classList.add("!hidden");
-}
+const plainProducts = JSON.parse(JSON.stringify(props.products));
 </script>
 
 <template>
@@ -142,92 +133,33 @@ function handleImageError() {
                     </p>
                 </div>
 
-                <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                    <!-- Product Card 1 -->
+                <div
+                    v-if="plainProducts && plainProducts.length > 0"
+                    class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3"
+                >
                     <div
-                        class="bg-white rounded-lg shadow-lg overflow-hidden dark:bg-gray-800"
+                        v-for="product in plainProducts.slice(0, 3)"
+                        :key="product.id"
+                        class="bg-white rounded-lg shadow-md p-6 dark:bg-gray-800 transition hover:shadow-lg"
                     >
-                        <div class="h-48 bg-gray-200 dark:bg-gray-700"></div>
-                        <div class="p-6">
-                            <h3
-                                class="text-lg font-medium text-gray-900 dark:text-white"
-                            >
-                                Produto Um
-                            </h3>
-                            <p class="mt-2 text-gray-500 dark:text-gray-300">
-                                Lorem Ipsum dolor sit amet, consectetur
-                                adipiscing
-                            </p>
-                            <div class="mt-4 flex justify-between items-center">
-                                <span
-                                    class="text-xl font-bold text-gray-900 dark:text-white"
-                                    >R$49.99</span
-                                >
-                                <button
-                                    class="px-4 py-2 bg-[#FF2D20] text-white rounded-md hover:bg-red-600"
-                                >
-                                    Adicionar ao Carrinho
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product Card 2 -->
-                    <div
-                        class="bg-white rounded-lg shadow-lg overflow-hidden dark:bg-gray-800"
-                    >
-                        <div class="h-48 bg-gray-200 dark:bg-gray-700"></div>
-                        <div class="p-6">
-                            <h3
-                                class="text-lg font-medium text-gray-900 dark:text-white"
-                            >
-                                Produto Dois
-                            </h3>
-                            <p class="mt-2 text-gray-500 dark:text-gray-300">
-                                Lorem Ipsum dolor sit amet, consectetur
-                                adipiscing
-                            </p>
-                            <div class="mt-4 flex justify-between items-center">
-                                <span
-                                    class="text-xl font-bold text-gray-900 dark:text-white"
-                                    >R$39.99</span
-                                >
-                                <button
-                                    class="px-4 py-2 bg-[#FF2D20] text-white rounded-md hover:bg-red-600"
-                                >
-                                    Adicionar ao Carrinho
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product Card 3 -->
-                    <div
-                        class="bg-white rounded-lg shadow-lg overflow-hidden dark:bg-gray-800"
-                    >
-                        <div class="h-48 bg-gray-200 dark:bg-gray-700"></div>
-                        <div class="p-6">
-                            <h3
-                                class="text-lg font-medium text-gray-900 dark:text-white"
-                            >
-                                Produto Três
-                            </h3>
-                            <p class="mt-2 text-gray-500 dark:text-gray-300">
-                                Lorem Ipsum dolor sit amet, consectetur
-                                adipiscing
-                            </p>
-                            <div class="mt-4 flex justify-between items-center">
-                                <span
-                                    class="text-xl font-bold text-gray-900 dark:text-white"
-                                    >R$59.99</span
-                                >
-                                <button
-                                    class="px-4 py-2 bg-[#FF2D20] text-white rounded-md hover:bg-red-600"
-                                >
-                                    Adicionar ao Carrinho
-                                </button>
-                            </div>
-                        </div>
+                        <img
+                            :src="product.image_url"
+                            alt="Product Image"
+                            class="h-48 w-full object-cover rounded-md mb-4"
+                        />
+                        <h3
+                            class="text-xl font-semibold text-gray-900 dark:text-white"
+                        >
+                            {{ product.name }}
+                        </h3>
+                        <p class="mt-2 text-gray-500 dark:text-gray-300">
+                            {{ product.description }}
+                        </p>
+                        <p
+                            class="mt-4 text-lg font-bold text-gray-900 dark:text-white"
+                        >
+                            R$ {{ product.price.toFixed(2) }}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -360,11 +292,6 @@ function handleImageError() {
                     <p>
                         Mini Store © {{ new Date().getFullYear() }}. Todos os
                         direitos reservados.
-                    </p>
-                    <p class="mt-2">
-                        Powered by Laravel v{{ laravelVersion }} (PHP v{{
-                            phpVersion
-                        }})
                     </p>
                 </div>
             </div>
