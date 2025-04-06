@@ -1,8 +1,17 @@
 <script setup>
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { useCartStore } from "@/stores/cartStore";
+import { router } from "@inertiajs/vue3";
 
 const cartStore = useCartStore();
+
+const goToCheckout = () => {
+    if (cartStore.cart.length > 0) {
+        router.visit("/checkout");
+    } else {
+        alert("Seu carrinho está vazio.");
+    }
+};
 </script>
 
 <template>
@@ -21,8 +30,8 @@ const cartStore = useCartStore();
                 </button>
             </div>
 
-            <div class="p-4 flex flex-col h-full">
-                <div class="flex-grow">
+            <div class="p-4 flex-1 overflow-y-auto">
+                <div>
                     <div v-if="cartStore.cart.length > 0">
                         <ul>
                             <li
@@ -61,16 +70,10 @@ const cartStore = useCartStore();
                     </div>
                     <p v-else>Seu carrinho está vazio.</p>
                 </div>
-
-                <div class="mt-4">
-                    <button
-                        @click="cartStore.toggleCartModal"
-                        class="w-full bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
-                    >
-                        Fechar
-                    </button>
+                <div class="p-4 mt-auto">
                     <button
                         v-if="cartStore.cart.length > 0"
+                        @click="goToCheckout"
                         class="w-full mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                     >
                         Finalizar Compra
