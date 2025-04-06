@@ -108,19 +108,17 @@ const cartStore = useCartStore();
                         >
                             Registrar
                         </Link>
-
-                        <ShoppingCartIcon
-                            class="h-6 w-6 text-gray-700 dark:text-white cursor-pointer"
-                            @click="cartStore.toggleCartModal"
-                        />
                     </template>
+                    <ShoppingCartIcon
+                        class="h-6 w-6 text-gray-700 dark:text-white cursor-pointer"
+                        @click="cartStore.toggleCartModal"
+                    />
                 </nav>
             </div>
         </header>
 
         <Cart
             v-if="cartStore.isCartModalOpen"
-            :cart="cart"
             :total-items="cartStore.totalItems"
             :total-price="cartStore.totalPrice"
             @close="cartStore.toggleCartModal(item.id)"
