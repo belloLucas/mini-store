@@ -31,4 +31,8 @@ export const useCartStore = defineStore("cart", {
             this.isCartModalOpen = !this.isCartModalOpen;
         },
     },
+    persist: {
+        key: "cart",
+        storage: localStorage,
+    },
 });
