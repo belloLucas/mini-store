@@ -56,6 +56,12 @@ const cartStore = useCartStore();
 <template>
     <Head title="Mini Store" />
     <div class="bg-gray-50 min-h-screen dark:bg-gray-900">
+        <div
+            v-if="cartStore.notification"
+            class="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300"
+        >
+            {{ cartStore.notification }}
+        </div>
         <header class="bg-white shadow dark:bg-gray-800">
             <div
                 class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center"
