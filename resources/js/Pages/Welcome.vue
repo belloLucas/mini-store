@@ -1,6 +1,9 @@
 <script setup>
 import { Head, Link } from "@inertiajs/vue3";
 import { ref, computed } from "vue";
+import { ShoppingCartIcon } from "@heroicons/vue/24/outline";
+import Cart from "@/Components/Cart.vue";
+import { useCartStore } from "@/stores/cartStore";
 
 const props = defineProps({
     canLogin: {
@@ -46,17 +49,17 @@ const categories = computed(() => {
 const selectCategory = (categoryId) => {
     selectedCategory.value = categoryId;
 };
+
+const cartStore = useCartStore();
 </script>
 
 <template>
     <Head title="Mini Store" />
     <div class="bg-gray-50 min-h-screen dark:bg-gray-900">
-        <!-- Header -->
         <header class="bg-white shadow dark:bg-gray-800">
             <div
                 class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center"
             >
-                <!-- Logo -->
                 <div class="flex items-center">
                     <svg
                         class="h-10 w-auto text-[#FF2D20]"
@@ -75,7 +78,6 @@ const selectCategory = (categoryId) => {
                     >
                 </div>
 
-                <!-- Navigation -->
                 <nav v-if="canLogin" class="flex items-center space-x-4">
                     <Link
                         v-if="$page.props.auth.user"
@@ -100,12 +102,25 @@ const selectCategory = (categoryId) => {
                         >
                             Registrar
                         </Link>
+
+                        <ShoppingCartIcon
+                            class="h-6 w-6 text-gray-700 dark:text-white cursor-pointer"
+                            @click="cartStore.toggleCartModal"
+                        />
                     </template>
                 </nav>
             </div>
         </header>
 
-        <!-- Hero -->
+        <Cart
+            v-if="cartStore.isCartModalOpen"
+            :cart="cart"
+            :total-items="cartStore.totalItems"
+            :total-price="cartStore.totalPrice"
+            @close="cartStore.toggleCartModal(item.id)"
+            @remove-item="cartStore.removeFromCart"
+        ></Cart>
+
         <div class="relative py-16 bg-white overflow-hidden dark:bg-gray-800">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="relative">
@@ -150,7 +165,6 @@ const selectCategory = (categoryId) => {
             </div>
         </div>
 
-        <!-- Seção de produtos destaque -->
         <div id="featured" class="bg-gray-50 py-16 dark:bg-gray-900">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center">
@@ -191,12 +205,17 @@ const selectCategory = (categoryId) => {
                         >
                             R$ {{ product.price.toFixed(2) }}
                         </p>
+                        <button
+                            @click="cartStore.addToCart(product)"
+                            class="mt-4 w-full bg-[#FF2D20] text-white px-4 py-2 rounded-md hover:bg-red-600"
+                        >
+                            Adicionar ao Carrinho
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Seção de Categorias -->
         <div id="categories" class="bg-white py-16 dark:bg-gray-800">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center">
@@ -259,6 +278,12 @@ const selectCategory = (categoryId) => {
                             >
                                 R$ {{ product.price.toFixed(2) }}
                             </p>
+                            <button
+                                @click="cartStore.addToCart(product)"
+                                class="mt-4 w-full bg-[#FF2D20] text-white px-4 py-2 rounded-md hover:bg-red-600"
+                            >
+                                Adicionar ao Carrinho
+                            </button>
                         </div>
                     </div>
                     <p
@@ -271,7 +296,6 @@ const selectCategory = (categoryId) => {
             </div>
         </div>
 
-        <!-- Footer -->
         <footer class="bg-gray-800 text-white py-12 border-t border-gray-700">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
