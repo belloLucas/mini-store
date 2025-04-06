@@ -94,10 +94,10 @@ Uma plataforma moderna de e-commerce construída com Laravel e Vue.js, apresenta
 
 ## Estrutura do Projeto
 
-    - /app - Código principal da aplicação (Back End)
-    - /resources/js - Componentes Vue.js e páginas (Front End)
-        - /Pages - Páginas principais da aplicação
-        - /Components - Componentes reutilizáveis
-        - /stores - Stores Pinia para gerenciamento de estado
-    - /database/migrations - Estrutura do Banco de Dados
-    - /database/seeders - Seeders de dados
+-   /app - Código principal da aplicação (Back End)
+-   /resources/js - Componentes Vue.js e páginas (Front End)
+    -   /Pages - Páginas principais da aplicação
+    -   /Components - Componentes reutilizáveis
+    -   /stores - Stores Pinia para gerenciamento de estado
+-   /database/migrations - Estrutura do Banco de Dados
+-   /database/seeders - Seeders de dados
