@@ -81,11 +81,12 @@ Uma plataforma moderna de e-commerce construída com Laravel e Vue.js, apresenta
     ```
 
 2. Executando o Back End
+
     ```bash
     php artisan serve
     ```
 
-#### A aplicação estará rodando na url
+3. A aplicação estará rodando na url
 
     ```bash
     http://localhost:8000
