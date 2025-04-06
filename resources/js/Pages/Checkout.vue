@@ -115,11 +115,35 @@ const submitOrder = () => {
         },
     };
     console.log("Dados do pedido:", orderData);
+    cartStore.showNotification(
+        "Pedido realizado com sucesso! Obrigado pela compra."
+    );
 };
 </script>
 
 <template>
     <div class="bg-gray-100 min-h-screen">
+        <div
+            v-if="cartStore.notification"
+            class="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-3 rounded-md shadow-lg transition-all duration-300 ease-in-out flex items-center"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                />
+            </svg>
+            {{ cartStore.notification }}
+        </div>
+
         <div
             class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid grid-cols-1 lg:grid-cols-3 gap-8"
         >
