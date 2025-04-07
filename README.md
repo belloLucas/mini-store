@@ -2,6 +2,8 @@
 
 Uma plataforma moderna de e-commerce construída com Laravel e Vue.js, apresentando catálogo de produtos, funcionalidade de carrinho de compras e processo de checkout.
 
+## Respostas das perguntas no arquivo <a href="https://github.com/belloLucas/mini-store/blob/main/respostas.md">respostas.md</a>
+
 ## 📋 Funcionalidades
 
 -   Catálogo de produtos com filtragem por categoria
