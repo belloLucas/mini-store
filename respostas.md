@@ -224,17 +224,13 @@ public function transform(InterfaceItemPedido $orderItem)
 
 ### 13. Experiência Profissional
 Descreva um projeto desafiador em que você trabalhou recentemente como desenvolvedor full-
-stack. Em sua resposta, inclua:
-- Contexto: Qual era o propósito do projeto e quais eram seus objetivos?
-- Desafios: Que desafios técnicos ou de gerenciamento de projetos você enfrentou?
-- Soluções: Quais foram as soluções que você implementou para superar esses desafios?
-Como você utilizou tecnologias como Vue.js, Laravel, ou qualquer outra mencionada na
-descrição da vaga?
+stack.
 
-- Impacto: Quais foram os resultados do projeto em termos de desempenho da equipe,
-satisfação do cliente ou melhorias no produto?
-- Lições Aprendidas: Que lições você tirou dessa experiência que poderia aplicar em
-projetos futuros?
+O projeto desafiador é o que mais trabalho na minha empresa: WebQuarto. É um projeto já maduro, portanto, cada nova funcionalidade que vamos adicionar, acaba dando efeito colateral em diversas partes do sistema. Isso é muito bom pois por conta disso me habituei muito bem ao projeto, todas as estruturas, regras de negócio e coisas do tipo. Já adicionei diversas features diferentes, tanto no front quanto no back end. Uma que gostei muito de ter feito foi a criação de espaços para anúncios extras. Na plataforma, atualmente, há um limite de 3 anúncios gratuitos por usuário. Após isso, o usuário ficava sem ter muita opção de fazer um anúncio que ultrapassasse esse limite. E essa feature que adicionei permite que o usuário compre espaços extras (que duram um limite de tempo previamente definido), onde ele poderá ultrapassar o limite de anúncios e ainda assim ter todos eles funcionando naturalmente.
+
+Nessa feature, trabalhei bastante com gerenciamento de estados no front end que é feito em Vue 2 e utiliza Vuex para os estados. Foi uma solução que também exigiu adaptação do back end, começando com a criação de novas tabelas no banco de dados, novos relacionamentos, controllers, services, repositórios etc. Também criei comandos kernel que rodam diariamente e verificam se os anúncios extras estão na data de vencimento, caso sim, eles são desativados automaticamente.
+
+Não tive acesso a repercussão da feature em si, em relação a número de usos etc, mas foi algo que trouxe uma melhora grande na plataforma, especialmente pois trouxe uma nova forma de monetização que contribuiu para o crescimento da empresa.
 
 ### 14. SQL
 Utilizando a seguinte estrutura de tabelas no MySQL para um banco de dados de vendas:
